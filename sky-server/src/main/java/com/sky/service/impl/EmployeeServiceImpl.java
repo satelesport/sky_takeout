@@ -113,7 +113,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = Employee
                 .builder()
                 .id(id)
-                .status(status).build();
+                .status(status)
+                .updateUser(BaseContext.getCurrentId())
+                .updateTime(LocalDateTime.now())
+                .build();
         employeeMapper.modifyEmployee(employee);
     }
 
