@@ -30,4 +30,14 @@ public interface EmployeeMapper {
      * @return
      */
     List<Employee> queryByName(EmployeePageQueryDTO employeePageQueryDTO);
+
+    /**
+     * 根据id启用禁用员工
+     * @param employee
+     * @return
+     */
+    void modifyEmployee(Employee employee);
+
+    @Select("select * from employee where id = #{id}")
+    Employee queryEmployeeById(Long id);
 }
