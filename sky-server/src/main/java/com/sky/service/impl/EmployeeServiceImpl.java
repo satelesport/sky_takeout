@@ -84,8 +84,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateTime(LocalDateTime.now());
 
         //设置记录创建人和修改人的id 从ThreadLocal中取出当前登录人的id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        //employee.setCreateUser(BaseContext.getCurrentId());
+        //employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
     }
@@ -114,8 +114,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .builder()
                 .id(id)
                 .status(status)
-                .updateUser(BaseContext.getCurrentId())
-                .updateTime(LocalDateTime.now())
+                //.updateUser(BaseContext.getCurrentId())
+                //.updateTime(LocalDateTime.now())
                 .build();
         employeeMapper.modifyEmployee(employee);
     }
@@ -140,8 +140,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void modifyEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        //employee.setUpdateTime(LocalDateTime.now());
+        //employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.modifyEmployee(employee);
     }
 }
