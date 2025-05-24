@@ -127,6 +127,35 @@ public class DishServiceImpl implements DishService {
             flavors.forEach((dishFlavor -> dishFlavor.setDishId(dishId)));
             dishFlavorMapper.save(flavors);
         }
+    }
 
+    /**
+     * 启用停用菜品
+     * @param id
+     * @param status
+     */
+    @Override
+    public void activeOrStop(Long id, Integer status){
+        Dish dish = Dish.builder()
+                .id(id)
+                .status(status)
+                .build();
+        dishMapper.modifyDish(dish);
+    }
+
+    /**
+     * 根据套餐id查询菜品
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<Dish> queryByCategory(Long categoryId, String name){
+        Dish dish = Dish.builder()
+                .categoryId(categoryId)
+                .status(StatusConstant.ENABLE)
+                .name(name)
+                .build();
+        List<Dish> dishList = dishMapper.queryByCategory(dish);
+        return dishList;
     }
 }

@@ -64,4 +64,11 @@ public interface DishMapper {
      */
     @AutoFillAnnotation(OperationType.UPDATE)
     void modifyDish(Dish dish);
+
+    /**
+     * 根据套餐id查询菜品
+     * @param
+     * @return
+     */
+    List<Dish> queryByCategory(Dish dish);
 }

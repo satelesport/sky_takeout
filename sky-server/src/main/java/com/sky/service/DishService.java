@@ -18,4 +18,8 @@ public interface DishService {
     DishVO queryById(Long id);
 
     void modifyDish(DishDTO dishDTO);
+
+    void activeOrStop(Long id, Integer status);
+
+    List<Dish> queryByCategory(Long categoryId, String name);
 }
