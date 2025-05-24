@@ -30,4 +30,10 @@ public interface SetmealMapper {
     void save(Setmeal setmeal);
 
     List<SetmealVO> queryByName(SetmealPageQueryDTO setmealPageQueryDTO);
+
+    @Select("select * from setmeal where id = #{id}")
+    Setmeal queryById(Long id);
+
+
+    void deleteByIds(List<Long> ids);
 }

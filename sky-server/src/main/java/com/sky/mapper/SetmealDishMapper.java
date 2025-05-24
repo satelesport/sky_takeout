@@ -22,4 +22,6 @@ public interface SetmealDishMapper {
 
     @AutoFillAnnotation(OperationType.INSERT)
     void save(List<SetmealDish> setmealDishes);
+
+    void deleteBySetmealIds(List<Long> setmealIds);
 }
