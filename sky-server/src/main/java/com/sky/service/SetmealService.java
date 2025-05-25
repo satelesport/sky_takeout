@@ -17,4 +17,6 @@ public interface SetmealService {
     SetmealVO queryById(Long id);
 
     void modify(SetmealDTO setmealDTO);
+
+    void activeOrStop(Long id, Integer status);
 }
