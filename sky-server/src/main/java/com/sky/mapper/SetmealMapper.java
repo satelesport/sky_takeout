@@ -36,4 +36,7 @@ public interface SetmealMapper {
 
 
     void deleteByIds(List<Long> ids);
+
+    @AutoFillAnnotation(OperationType.UPDATE)
+    void modify(Setmeal setmeal);
 }
