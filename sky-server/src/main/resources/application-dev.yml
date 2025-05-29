@@ -11,3 +11,8 @@ sky:
     bucket-name: web-skytakeout0721
     access-key-id: LTAI5tEe1dwfqdBDpCfhnNBo
     access-key-secret: glRAgku9ajRm11RQ2E0BCCnmmSNSSg
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: '123456'
+    database: 0

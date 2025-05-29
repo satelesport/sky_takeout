@@ -79,7 +79,7 @@ public class SetmealServiceImpl implements SetmealService {
         for(Long id : ids){
             Setmeal setmeal = setmealMapper.queryById(id);
             if(setmeal.getStatus().equals(StatusConstant.ENABLE)){
-                throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ENABLE_FAILED);
+                throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
             }
         }
 
