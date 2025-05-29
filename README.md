@@ -17,3 +17,8 @@ BCrypt是单向的，而且经过salt和cost的处理，使其受rainbow攻击�
 @ApiModel 用来类上 标注DTO VO Entity
 @ApiModelProperty 用在属性上 对属性的说明
 @ApiOperation 用在方法上 对方法的说明
+
+<br><br>
+后面的内容更新到csdn博客上 希望这一趟项目抄写可以给我带来真正实力上的提升 <br>
+记得最后整个项目做完要总结整个项目并写一个感想报告<br>
+csdn博客地址：https://blog.csdn.net/satelesport
