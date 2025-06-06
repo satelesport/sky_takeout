@@ -20,7 +20,6 @@ public interface SetmealDishMapper {
     @Select("select count(0) from setmeal_dish where dish_id = #{dishId}")
     public Integer countByDishId(Long dishId);
 
-    @AutoFillAnnotation(OperationType.INSERT)
     void save(List<SetmealDish> setmealDishes);
 
     void deleteBySetmealIds(List<Long> setmealIds);
