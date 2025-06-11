@@ -1,18 +1,24 @@
 package com.sky.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.entity.*;
 import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
 import com.sky.mapper.*;
+import com.sky.result.PageResult;
 import com.sky.service.OrderService;
 import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
+import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -140,5 +146,46 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+    }
+
+    /**
+     * 按条件查询订单
+     * @param ordersPageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO){
+        PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
+        Page<Orders> page = (Page<Orders>) orderMapper.conditionSearch(ordersPageQueryDTO);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    /**
+     * 返回各个状态的订单
+     * @return
+     */
+    @Override
+    public OrderStatisticsVO statistics(){
+        //返回待派送3 派送中4 待接单2三种状态
+        OrderStatisticsVO orderStatisticsVO = new OrderStatisticsVO();
+        orderStatisticsVO.setConfirmed(orderMapper.statistics(Orders.CONFIRMED));
+        orderStatisticsVO.setToBeConfirmed(orderMapper.statistics(Orders.TO_BE_CONFIRMED));
+        orderStatisticsVO.setDeliveryInProgress(orderMapper.statistics(Orders.DELIVERY_IN_PROGRESS));
+        return orderStatisticsVO;
+    }
+
+    /**
+     * 订单详细查询
+     * @param orderId
+     * @return
+     */
+    @Override
+    public OrderVO details(Long orderId){
+        Orders orders = orderMapper.queryById(orderId);
+        List<OrderDetail> orderDetailList =  orderDetailMapper.queryByOrderId(orderId);
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(orders, orderVO);
+        orderVO.setOrderDetailList(orderDetailList);
+        return orderVO;
     }
 }

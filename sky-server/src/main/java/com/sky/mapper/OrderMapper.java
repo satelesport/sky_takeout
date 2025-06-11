@@ -1,11 +1,14 @@
 package com.sky.mapper;
 
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import com.sky.vo.OrderSubmitVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface OrderMapper {
@@ -27,4 +30,25 @@ public interface OrderMapper {
      * @param orders
      */
     void update(Orders orders);
+
+    /**
+     * 按条件查询订单
+     * @param ordersPageQueryDTO
+     * @return
+     */
+    List<Orders> conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO);
+
+    /**
+     * 查询特定状态的订单
+     * @param
+     * @return
+     */
+    @Select("select count(0) from orders where status = #{status}")
+    Integer statistics(Integer status);
+
+    /**
+     * 根据id查询
+     */
+    @Select("select * from orders where id = #{id}")
+    Orders queryById(Long id);
 }

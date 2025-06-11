@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/user/order")
-@RestController
+@RestController("userOrderController")
 @Slf4j
 @Api("订单相关接口")
 public class OrderController {
