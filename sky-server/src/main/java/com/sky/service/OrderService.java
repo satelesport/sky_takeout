@@ -38,4 +38,8 @@ public interface OrderService {
     void delivery(Long orderId);
 
     void complete(Long orderId);
+
+    PageResult historyOrders(int page, int pageSize, Integer status);
+
+    void repetition(Long orderId);
 }
