@@ -233,4 +233,73 @@ public class OrderServiceImpl implements OrderService {
 
         orderMapper.update(orders);
     }
+
+    /**
+     * 取消订单
+     * @param ordersCancelDTO
+     */
+    @Override
+    public void cancel(OrdersCancelDTO ordersCancelDTO){
+        //如果已经支付了则需要退款
+        Orders qOrders = orderMapper.queryById(ordersCancelDTO.getId());
+
+//        //支付状态
+//        Integer payStatus = qOrders.getPayStatus();
+//        if (payStatus == Orders.PAID) {
+//            //用户已支付，需要退款
+//            String refund = weChatPayUtil.refund(
+//                    qOrders.getNumber(),
+//                    qOrders.getNumber(),
+//                    new BigDecimal(0.01),
+//                    new BigDecimal(0.01));
+//        }
+
+        // 取消需要退款，根据订单id更新订单状态、原因、时间
+        Orders orders = new Orders();
+        orders.setId(qOrders.getId());
+        orders.setStatus(Orders.CANCELLED);
+        orders.setRejectionReason(ordersCancelDTO.getCancelReason());
+        orders.setCancelTime(LocalDateTime.now());
+
+        orderMapper.update(orders);
+    }
+
+    /**
+     * 派送订单
+     * @param orderId
+     */
+    @Override
+    public void delivery(Long orderId){
+        //要检测用户是否付款 只有接单的才可以派送
+        Orders qOrders = orderMapper.queryById(orderId);
+        if(!qOrders.getPayStatus().equals(Orders.PAID) || !qOrders.getStatus().equals(Orders.CONFIRMED)){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Orders orders = new Orders();
+        orders.setId(orderId);
+        orders.setStatus(Orders.DELIVERY_IN_PROGRESS);
+
+        orderMapper.update(orders);
+    }
+
+    /**
+     * 完成订单
+     * @param orderId
+     */
+    @Override
+    public void complete(Long orderId){
+        //只有派送中的才可以完成
+        Orders qOrders = orderMapper.queryById(orderId);
+        if(!qOrders.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+
+        Orders orders = new Orders();
+        orders.setId(orderId);
+        orders.setStatus(Orders.COMPLETED);
+        orders.setDeliveryTime(LocalDateTime.now());
+        orderMapper.update(orders);
+    }
 }
