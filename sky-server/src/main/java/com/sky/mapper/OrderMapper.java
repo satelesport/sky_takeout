@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -56,4 +57,10 @@ public interface OrderMapper {
 
     @Select("select * from orders where status = #{status} and order_time < #{time}")
     List<Orders> taskQuery(LocalDateTime time, Integer status);
+
+    /**
+     * 根据起始时间查询营业额
+     * @return
+     */
+    Double queryByDay(LocalDateTime begin, LocalDateTime end, Integer status);
 }
