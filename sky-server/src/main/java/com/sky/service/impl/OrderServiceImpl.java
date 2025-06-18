@@ -149,7 +149,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(orders);
 
         //通知管理端有新的订单
-        sendWebSocket(1, ordersDB.getId(), outTradeNo);
+        sendWebSocket(1, ordersDB.getId(), "订单号" + outTradeNo + "已经下单");
     }
 
     /**
@@ -356,11 +356,22 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    public void sendWebSocket(int type, Long orderId, String outTradeNo){
+    @Override
+    public void reminder(Long orderId){
+
+        Orders OrderDB = orderMapper.queryById(orderId);
+        if(OrderDB == null || OrderDB.getStatus().equals(Orders.COMPLETED) || OrderDB.getStatus().equals(Orders.CANCELLED)){
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        sendWebSocket(2, orderId, "订单号: " + OrderDB.getNumber());
+    }
+
+    public void sendWebSocket(int type, Long orderId, String content){
         Map map = new HashMap();
         map.put("type", type);
         map.put("orderId", orderId);
-        map.put("content", "订单号" + outTradeNo + "已经下单");
+        map.put("content", content);
         String json = JSONObject.toJSONString(map);
         webSocketServer.sendToAllClient(json);
     }

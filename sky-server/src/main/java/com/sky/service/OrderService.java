@@ -42,4 +42,6 @@ public interface OrderService {
     PageResult historyOrders(int page, int pageSize, Integer status);
 
     void repetition(Long orderId);
+
+    void reminder(Long orderId);
 }
