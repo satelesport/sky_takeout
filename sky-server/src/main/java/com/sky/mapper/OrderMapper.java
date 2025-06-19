@@ -63,4 +63,11 @@ public interface OrderMapper {
      * @return
      */
     Double queryByDay(LocalDateTime begin, LocalDateTime end, Integer status);
+
+    /**
+     * 查询订单数
+     * @param status
+     * @return
+     */
+    Long queryOrderByDay(LocalDateTime begin, LocalDateTime end, Integer status);
 }
