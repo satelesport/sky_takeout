@@ -1,5 +1,6 @@
 package com.sky.mapper;
 
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import com.sky.vo.OrderSubmitVO;
@@ -70,4 +71,13 @@ public interface OrderMapper {
      * @return
      */
     Long queryOrderByDay(LocalDateTime begin, LocalDateTime end, Integer status);
+
+    /**
+     * 统计销量前十商品
+     * @return
+     */
+    @Select("select sum(od.number) number, od.name from order_detail od, orders o " +
+            "where od.order_id = o.id and o.status = 5\n" +
+            "group by od.name order by number desc limit 0, 10")
+    List<GoodsSalesDTO> top10();
 }
