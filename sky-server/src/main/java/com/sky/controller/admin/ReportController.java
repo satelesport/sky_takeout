@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/admin/report")
@@ -74,5 +74,14 @@ public class ReportController {
         log.info("top10菜品统计：{}, {}", begin, end);
         SalesTop10ReportVO salesTop10ReportVO = reportService.top10(begin, end);
         return Result.success(salesTop10ReportVO);
+    }
+
+    /**
+     * Excel导出
+     */
+    @GetMapping("export")
+    public void export(HttpServletResponse response){
+        log.info("Excel报表导出");
+        reportService.export(response);
     }
 }
